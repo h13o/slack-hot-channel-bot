@@ -49,7 +49,7 @@ foreach ($channel_list as $channel) {
         if ($idx === 0) {
             $result['updated_at'] = $time->format('n/j H:i');
         }
-        if (Carbon::now('Asia/Tokyo')->subHour(12)->diffInSeconds($time, false) >=0) {
+        if (Carbon::now('Asia/Tokyo')->subHour(168)->diffInSeconds($time, false) >=0) {
             $result['messages']++;
             $result['users'][] = $message['user'] ?? '';
         }
