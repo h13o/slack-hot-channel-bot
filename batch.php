@@ -88,7 +88,7 @@ foreach ($report as $idx => $result) {
         'block_id' => 'section'.($idx+1),
         'text' => [
             'type' => 'mrkdwn',
-            'text' => '<#'.$result['id'].'> :timer_clock: '.$result['updated_at'].' :busts_in_silhouette:'.$result['users'].'人 :speech_balloon:'.$result['messages'].'回'
+            'text' => '<#'.$result['id'].'> :speech_balloon:'.$result['messages'].'回 :busts_in_silhouette:'.$result['users'].'人'
         ]
     ];
 }
