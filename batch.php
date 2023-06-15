@@ -11,9 +11,12 @@ if (file_exists(__DIR__.'/.env')) {
 
 $client = new GuzzleHttp\Client(['base_uri' => 'https://slack.com/api/']);
 $headers = [
-  'Authorization' => 'Bearer '. getenv('SLACK_API_TOKEN')
+  'Authorization' => 'Bearer '. getenv('SLACK_API_TOKEN'),
 ];
-$res = $client->request('GET', 'conversations.list', compact('headers'));
+$query = [
+    'limit' => 9999,
+];
+$res = $client->request('GET', 'conversations.list', ['headers' => $headers, 'query' => $query]);
 $channel_list = json_decode($res->getBody().'', true)['channels'];
 
 $report = [];
@@ -88,10 +91,11 @@ foreach ($report as $idx => $result) {
         'block_id' => 'section'.($idx+1),
         'text' => [
             'type' => 'mrkdwn',
-            'text' => '<#'.$result['id'].'> :speech_balloon:'.$result['messages'].'回 :busts_in_silhouette:'.$result['users'].'人'
+            'text' => ($idx+1).'位 <#'.$result['id'].'> :speech_balloon:'.$result['messages'].'回 :busts_in_silhouette:'.$result['users'].'人'
         ]
     ];
 }
+
 
 $client = new GuzzleHttp\Client();
 
