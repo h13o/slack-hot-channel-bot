@@ -66,8 +66,8 @@ foreach ($channel_list as $channel) {
 $report = collect($report)->filter(function ($result) {
     return isset($result['updated_at']) && $result['users'];
 })->sortBy(function ($result) {
-    return $result['updated_at'];
-})->reverse()->take(20)->reverse();
+    return $result['messages'];
+})->reverse();
 
 $message = [
     'blocks' => [
