@@ -86,15 +86,7 @@ $message = [
             'block_id' => 'section1',
             'text' => [
                 'type' => 'mrkdwn',
-                'text' => '過去1週間の投稿'
-            ]
-        ],
-        [
-            'type' => 'section',
-            'block_id' => 'section2',
-            'text' => [
-                'type' => 'mrkdwn',
-                'text' => '1週間の投稿数 :speech_balloon:'.$total_messages.'回 :busts_in_silhouette:'.$total_users.'人' 
+                'text' => '過去1週間の投稿数 :speech_balloon:'.$total_messages.'回 :busts_in_silhouette:'.$total_users.'人' 
             ]
         ]
     ]
@@ -103,7 +95,7 @@ $message = [
 foreach ($report as $idx => $result) {
     $message['blocks'][] = [
         'type' => 'section',
-        'block_id' => 'section'.($idx+3),
+        'block_id' => 'section'.($idx+2),
         'text' => [
             'type' => 'mrkdwn',
             'text' => '<#'.$result['id'].'> :speech_balloon:'.$result['messages'].'回 :busts_in_silhouette:'.$result['users'].'人'
