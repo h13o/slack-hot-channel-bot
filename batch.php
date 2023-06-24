@@ -22,6 +22,7 @@ var_dump($channel_list);
 
 
 $report = [];
+$total_messages = 0; // Add this line to count total messages
 foreach ($channel_list as $channel) {
     if ($channel['is_private'] === true) { //プライベートは除く
         continue;
@@ -56,6 +57,7 @@ foreach ($channel_list as $channel) {
         }
         if (Carbon::now('Asia/Tokyo')->subHour(168)->diffInSeconds($time, false) >=0) {
             $result['messages']++;
+            $total_messages++; // Add this line to increment total messages
             $result['users'][] = $message['user'] ?? '';
         }
     }
@@ -82,6 +84,22 @@ $message = [
             'text' => [
                 'type' => 'mrkdwn',
                 'text' => getenv('TITLE')
+            ]
+        ],
+        [
+            'type' => 'section',
+            'block_id' => 'section1',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => '過去1週間の投稿'
+            ]
+        ],
+        [
+            'type' => 'section',
+            'block_id' => 'section2',
+            'text' => [
+                'type' => 'mrkdwn',
+                'text' => 'すべてのチャンネルの合計投稿数：' . $total_messages . '回'
             ]
         ]
     ]
