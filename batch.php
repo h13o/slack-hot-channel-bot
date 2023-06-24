@@ -21,6 +21,8 @@ $channel_list = json_decode($res->getBody().'', true)['channels'];
 
 $report = [];
 $total_messages = 0; // Add this line to count total messages
+$total_users = []; // Add this line to collect all unique users
+
 foreach ($channel_list as $channel) {
     if ($channel['is_private'] === true) { //プライベートは除く
         continue;
@@ -57,6 +59,7 @@ foreach ($channel_list as $channel) {
             $result['messages']++;
             $total_messages++; // Add this line to increment total messages
             $result['users'][] = $message['user'] ?? '';
+            $total_users[] = $message['user'] ?? ''; // Add this line to collect the user
         }
     }
     if (is_int($result['messages']) && $result['messages'] >= 100) {
@@ -67,6 +70,8 @@ foreach ($channel_list as $channel) {
 
     sleep(4); // Tier 3 のAPI Limitっぽいので秒間0.5アクセスぐらいにする。バーストはOKって書いてあるけどほんとかなぁ
 }
+$total_users = count(array_unique($total_users)); // Add this line to count total unique users
+
 
 $report = collect($report)->filter(function ($result) {
     return isset($result['updated_at']) && $result['users'];
@@ -89,7 +94,7 @@ $message = [
             'block_id' => 'section2',
             'text' => [
                 'type' => 'mrkdwn',
-                'text' => 'すべてのチャンネルの合計投稿数：' . $total_messages . '回'
+                'text' => '1週間の投稿数 :speech_balloon:'.$total_messages.'回 :busts_in_silhouette:'.$total_users.'人' 
             ]
         ]
     ]
@@ -98,7 +103,7 @@ $message = [
 foreach ($report as $idx => $result) {
     $message['blocks'][] = [
         'type' => 'section',
-        'block_id' => 'section'.($idx+1),
+        'block_id' => 'section'.($idx+3),
         'text' => [
             'type' => 'mrkdwn',
             'text' => '<#'.$result['id'].'> :speech_balloon:'.$result['messages'].'回 :busts_in_silhouette:'.$result['users'].'人'
