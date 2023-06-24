@@ -18,8 +18,6 @@ $query = [
 ];
 $res = $client->request('GET', 'conversations.list', ['headers' => $headers, 'query' => $query]);
 $channel_list = json_decode($res->getBody().'', true)['channels'];
-var_dump($channel_list);
-
 
 $report = [];
 $total_messages = 0; // Add this line to count total messages
@@ -78,14 +76,6 @@ $report = collect($report)->filter(function ($result) {
 
 $message = [
     'blocks' => [
-        [
-            'type' => 'section',
-            'block_id' => 'section0',
-            'text' => [
-                'type' => 'mrkdwn',
-                'text' => getenv('TITLE')
-            ]
-        ],
         [
             'type' => 'section',
             'block_id' => 'section1',
